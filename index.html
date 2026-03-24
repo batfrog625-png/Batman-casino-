@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Batman Slot Casino</title>
+    <style>
+        body { background-color: #0b0b0b; color: #f1c40f; font-family: sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .logo { font-size: 2.5rem; margin: 20px 0; text-shadow: 0 0 10px #f1c40f; }
+        .balance { background: #1a1a1a; padding: 10px; border-radius: 20px; border: 2px solid #f1c40f; display: inline-block; margin-bottom: 20px; }
+        .reels { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; }
+        .reel { width: 80px; height: 100px; background: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 3rem; border: 4px solid #f1c40f; color: black; }
+        .spin-btn { background: #f1c40f; color: black; border: none; padding: 15px 40px; font-size: 1.5rem; font-weight: bold; border-radius: 10px; cursor: pointer; }
+        .spin-btn:disabled { background: #555; }
+        #msg { margin-top: 20px; font-weight: bold; min-height: 24px; }
+    </style>
+</head>
+<body>
+    <div class="logo">BATMAN SLOTS</div>
+    <div class="balance">Credits: <span id="balance">1000</span></div>
+    <div class="reels">
+        <div class="reel" id="r1">🦇</div>
+        <div class="reel" id="r2">🦇</div>
+        <div class="reel" id="r3">🦇</div>
+    </div>
+    <button class="spin-btn" id="btn" onclick="spin()">SPIN</button>
+    <div id="msg">Good Luck, Bruce!</div>
+
+    <script>
+        let credits = 1000;
+        const syms = ['🦇', '🃏', '💰', '💎', '👤'];
+        function spin() {
+            if(credits < 50) { alert("Credits မလောက်တော့ပါ!"); return; }
+            credits -= 50; document.getElementById('balance').innerText = credits;
+            document.getElementById('btn').disabled = true;
+            document.getElementById('msg').innerText = "Spinning...";
+            let count = 0;
+            let timer = setInterval(() => {
+                document.getElementById('r1').innerText = syms[Math.floor(Math.random()*syms.length)];
+                document.getElementById('r2').innerText = syms[Math.floor(Math.random()*syms.length)];
+                document.getElementById('r3').innerText = syms[Math.floor(Math.random()*syms.length)];
+                if(++count > 10) {
+                    clearInterval(timer);
+                    const r1 = document.getElementById('r1').innerText;
+                    const r2 = document.getElementById('r2').innerText;
+                    const r3 = document.getElementById('r3').innerText;
+                    if(r1 === r2 && r2 === r3) {
+                        let win = r1 === '🦇' ? 1000 : 500;
+                        credits += win; document.getElementById('msg').innerText = "WIN! +" + win;
+                    } else { document.getElementById('msg').innerText = "Try Again!"; }
+                    document.getElementById('balance').innerText = credits;
+                    document.getElementById('btn').disabled = false;
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
